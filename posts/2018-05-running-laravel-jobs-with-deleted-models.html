@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Running Laravel jobs with deleted models</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+    <h1>Running Laravel jobs with deleted models</h1>
+
+    <p>
+        <a href="/archive.html">Archive</a>
+    </p>
+
+    <p>
+        2018
+    </p>
+
+<p name="057e" id="057e" class="graf graf--p graf-after--h3">If you try to dispatch a job with a model just after it was deleted, you will encounter a small problem:</p><pre name="6634" id="6634" class="graf graf--pre graf-after--p">No query results for model [App\Whatever].</pre><p name="104c" id="104c" class="graf graf--p graf-after--pre">Fortunately, there’s a quick fix for that — just remove <strong class="markup--strong markup--p-strong">SerializesModels</strong> trait from the job class. The trait causes the job to retrieve the model instance from database when it is being processed in the queue. This is a prefered behaviour in many cases, but not this one.</p><p name="26e7" id="26e7" class="graf graf--p graf-after--p">Without this trait the whole instance is serialized when dispatching and restored without database involvement when processing in the queue, which is exactly what we want.</p><p name="a2c9" id="a2c9" class="graf graf--p graf-after--p">This might also serve as optimization technique, saving you some database queries.</p><p name="d2c2" id="d2c2" class="graf graf--p graf-after--p">P.S. There’s no such problem when processing soft-deleted items, as models are still in the database when processing the queue.</p><p name="0fcc" id="0fcc" class="graf graf--p graf-after--p graf--trailing">Docs: <a href="https://laravel.com/docs/5.6/queues#class-structure" data-href="https://laravel.com/docs/5.6/queues#class-structure" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Class Structure</a></p>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    margin: 0 auto;
+    max-width: 50em;
+    line-height: 2;
+    padding: 0 2rem 2rem 2rem; /* useful for mobile */
+}
+
+h1, h2 {
+    font-weight: 500;
+}
+
+h2 {
+    padding-top: 1rem;
+}
+
+small {
+    font-size: 75%;
+}
+
+a{
+    color: #0033CC;
+    text-decoration: none;
+}
+
+a:visited{
+    color: #0033CC;
+    text-decoration: none;
+}
+
+p {
+    text-align: justify;
+}
+
+img {
+    border: 1px solid #dedede;
+    padding: 0.25em;
+    width: 100%;
+}
+
+.reverse {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+
+.row {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+figure {
+    width: 14rem;
+    height: 14rem;
+    display: inline-block;
+    margin: .3rem;
+}
+
+figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media screen
+    and (orientation: portrait)
+    , (max-width: 640px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+/* atomic classes */
+.m0 { margin: 0; }
+

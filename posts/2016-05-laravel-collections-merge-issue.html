@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Laravel Eloquent collections merge() “gotcha” moment</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+
+<h1>Laravel Eloquent collections merge() “gotcha” moment</h1>
+
+    <p>
+        <a href="/archive.html">Archive</a>
+    </p>
+
+<p>2016</p>
+
+<p>
+    <a href="https://laravel.com/docs/master/eloquent-collections">Laravel collections</a> are a powerful tool to process data, but it comes with a few gotchas. Today I spent far too much time on one of those moments.
+</p>
+
+<p>
+    If you try to merge two different eloquent collections into one and some objects happen to have the same id, one will overwrite the other. Use push() method instead or rethink your approach to the problem to avoid that.
+</p>
+
+<p>
+    Example of a problem:
+
+    <pre>
+    $cars = Car::all();
+    $bikes = Bike::all();
+    // if there is a car and a bike with the same id, one will overwrite the other
+    $vehicles = $cars-&gt;merge($bikes);
+    </pre>
+
+</p>
+
+
+<p>
+    A possible solution:
+    <pre>
+    $collection = collect();
+    $cars = Car::all();
+    $bikes = Bike::all();
+
+    foreach ($cars as $car)
+        $collection-&gt;push($car);
+
+    foreach ($bikes as $bike)
+        $collection-&gt;push($bike);
+    </pre>
+</p>
+
+</body>
+</html>

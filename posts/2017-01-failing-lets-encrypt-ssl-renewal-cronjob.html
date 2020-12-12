@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Failing Let’s Encrypt SSL certificate renewal cronjob</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+    <h1>Failing Let’s Encrypt SSL certificate renewal cronjob</h1>
+
+    <p>
+        <a href="/archive.html">Archive</a>
+    </p>
+
+    <p>
+        2017
+    </p>
+
+    <p>Your Let’s Encrypt SSL certificate was not renewed and the website is displaying a big angry error about that. You check cronjob — maybe you forgot to set it up? Nope, there it is:</p><pre name="4b83" id="4b83" class="graf graf--pre graf-after--p">&gt; crontab -e<br>11 11 15 * * letsencrypt renew --force-renew</pre><p name="234c" id="234c" class="graf graf--p graf-after--pre">You try to run it by hand and everything seems fine. The day is saved, but we still have to figure out why the cronjob failed in the first place. We’re gonna need some logs.</p><p name="2092" id="2092" class="graf graf--p graf-after--p">You are not sure if you have crontab logs lying somewhere around, so you just redirect the output to a separate file:</p><pre name="82f3" id="82f3" class="graf graf--pre graf-after--p">* * * * * letsencrypt renew — force-renew &gt; /var/log/letsencrypt-renew-crontab.log 2&gt;&amp;1</pre><p name="d422" id="d422" class="graf graf--p graf-after--pre">Now wait a minute or so and check the file:</p><pre name="e3d7" id="e3d7" class="graf graf--pre graf-after--p">cat /var/log/letsencrypt-renew-crontab.log</pre><p name="2bdd" id="2bdd" class="graf graf--p graf-after--pre">You get something like this:</p><pre name="8867" id="8867" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">The apache plugin is not working; there may be problems with your existing configuration.<br>The error was: NoInstallationError()&quot;</code></pre><p name="a465" id="a465" class="graf graf--p graf-after--pre">Bingo! Long story short, this has to do with PATH value that the crontab has — it’s not the same as you have in the console. Easy fix would be to set it right in the cronjob:</p><pre name="d3a1" id="d3a1" class="graf graf--pre graf-after--p">&gt; echo $PATH<br>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin</pre><pre name="fd12" id="fd12" class="graf graf--pre graf-after--pre">&gt; crontab -e<br># let’s encrypt renewals run every 15th of the month<br>11 11 15 * * PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin &amp;&amp; letsencrypt renew — force-renew &gt; /var/log/letsencrypt-renew-crontab.log 2&gt;&amp;1</pre><p name="e1e2" id="e1e2" class="graf graf--p graf-after--pre">We echo the correct $PATH value from the console and then edit the cronjob to explicitly set it before running the renewal.</p><p name="ad66" id="ad66" class="graf graf--p graf-after--p graf--trailing">That should do it.</p>
+
+</body>
+</html>

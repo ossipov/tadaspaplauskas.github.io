@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Git as deployment tool</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+    <h1>Git as deployment tool</h1>
+
+    <p>
+        <a href="/archive.html">Archive</a>
+    </p>
+
+    <p>
+        2019
+    </p>
+
+    <p>
+        This is the simplest way to setup a push-to-deploy system. You do not need any scripts, services or version control hosting to make it work. You just need to have ssh and git on your machine and server.
+    </p>
+
+    <p>
+        Run these commands on your remote server, in the folder you wish to deploy:
+    </p>
+    <p>
+        <code>
+            git init --bare<br>
+            git config receive.denycurrentbranch ignore<br>
+            echo "git checkout -f" >> .git/hooks/post-receive<br>
+            chmod +x .git/hooks/post-receive<br>
+        </code>
+    </p>
+
+    <p>
+        Now run this in your local repository:
+    </p>
+    <p>
+        <code>
+            git remote add server ssh://user@example.com/var/www/example.com<br>
+            git push server master<br>
+            git push --set-upstream server master<br>
+        </code>
+    </p>
+
+    <p>
+        That's it! Just push your changes to remote and they will be live. You can set any commands to be executed after deployments in .git/hooks/post-receive.
+    </p>
+
+</body>
+</html>

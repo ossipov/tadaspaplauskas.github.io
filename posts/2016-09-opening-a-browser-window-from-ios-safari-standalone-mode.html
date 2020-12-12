@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Opening a browser window from iOS Safari standalone mode</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+    <h1>Opening a browser window from iOS Safari standalone mode</h1>
+
+    <p>
+        <a href="/archive.html">Archive</a>
+    </p>
+
+    <p>
+        2016
+    </p>
+
+    <p>
+        This is a very specific edge case, so I’m gonna assume that if you are reading this, you came here from google having lost all hope and I do not need to explain the context of this issue.
+    </p>
+
+    <p>
+        So turns out Safari in iOS standalone mode has problems opening links in a new browser window if that link is located in an iframe. Window.open() will not work too. No other browser does that — not even Safari itself in a regular browser mode — so I suppose it’s just a bug.
+    </p>
+
+    <p>
+        After hitting my head on a wall for about a day I came up with this solution/hack. I’m not too happy about the fact that I had to write a hack to make the browser work as intended, but hey, you gotta do what you gotta do.
+    </p>
+
+    <p>
+        This snippet has to be included into the iframed website.
+    </p>
+
+    <pre>// a hack to handle safari standalone bug with<br>// opening links in new window on an iframe<br>if((&#39;standalone&#39; in window.navigator) &amp;&amp; window.navigator.standalone) {<br> // listen for all clicks in the page<br> document.addEventListener(&#39;click&#39;, function(event) {<br>  var elem = event.target;<br>  // bubble up until we hit a link or top HTML element<br>  while(elem.nodeName !== &#39;A&#39; &amp;&amp; elem.nodeName !== &#39;HTML&#39;) {<br>   elem = elem.parentNode;<br>  }<br>  // check if we really have a link<br>  if(&#39;href&#39; in elem &amp;&amp; elem.href.indexOf(&#39;http&#39;) !== -1 &amp;&amp; elem.target.indexOf(&#39;blank&#39;) !== -1) {<br>   event.preventDefault();<br>   <br>   // create a dummy element to &quot;click&quot;<br>   var link = window.parent.document.createElement(&#39;a&#39;);<br>   link.target = &#39;_blank&#39;;<br>   link.href = elem.href;<br>   link.click();<br>   // the element is no longer needed<br>   link = null;<br>  }<br> }, false);<br>}
+    </pre>
+
+</body>
+</html>

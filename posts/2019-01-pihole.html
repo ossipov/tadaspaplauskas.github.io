@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pi-hole on VPS</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+    <h1>Pi-hole on VPS</h1>
+
+    <p>
+        <a href="/archive.html">Archive</a>
+    </p>
+
+    <p>
+        2019
+    </p>
+
+    <p>
+        <a href="https://pi-hole.net">Pi-hole</a> was developed to be used on Raspberry Pi or similar embedded computers. I do not have a Raspberry Pi, but I have a VPS server for my personal needs (this website is hosted there too). Turns out you can easily install pihole on Ubuntu using <a href="https://github.com/pi-hole/pi-hole/#one-step-automated-install">provided auto-installer</a>, so that's what I did.
+    </p>
+
+    <p>
+        It's better than nothing, but after a few days of testing I'm going back to browser-level adblockers, since they not only block requests, but also clean-up DOM and are easier to fine-tune.
+    </p>
+
+    <p>
+        <s>I'm still keeping it online, as it barely uses any resources and additional ping is not noticeable. You can use it as your own DNS server - it's public for everyone: <pre>116.203.33.70</pre>
+        It's located in Frankfurt and is using CloudFlare DNS resolver. Web panel is off and I'm not logging anything. Of course there's no way for me to prove that to you, so use with caution :)</s>.
+    </p>
+
+    <p>
+        Shortly after publishing this I received an abuse complaint from German Federal Office for Information Security (BSI) forwarded by Hetzner:
+
+        <p>
+            <em>
+                <..>
+                Open DNS resolvers are abused for conducting DDoS reflection/
+                amplification attacks against third parties on a daily basis.
+                <..>
+                We would like to ask you to check if the open resolvers identified
+                on your network are intentionally configured as such and appropriate
+                countermeasures preventing their abuse for DDoS attacks have been
+                implemented.
+                <..>
+            </em>
+        </p>
+
+        It does not look particularly bad, but I do not have any interest to deal with them, so I'm taking the pihole down.
+    </p>
+
+</body>
+</html>

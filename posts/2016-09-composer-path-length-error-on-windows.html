@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Composer path length error on Windows</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+    <h1>Composer path length error on Windows</h1>
+
+    <p>
+        <a href="/archive.html">Archive</a>
+    </p>
+
+    <p>
+        2016
+    </p>
+
+    <p name="c742" id="c742" class="graf graf--p graf-after--h3">So you did a composer install/update and got this error:</p><pre name="c2b9" id="c2b9" class="graf graf--pre graf-after--p">Composer error: ZipArchive::extractTo(): Full extraction path exceed MAXPATHLEN (260) </pre><p name="26e6" id="26e6" class="graf graf--p graf-after--pre">The cause for this is the annoyingly small path length limit in Windows API, which is so easy to hit.</p><p name="55b7" id="55b7" class="graf graf--p graf-after--p">A simple fix would be to instruct Composer to use GIT to fetch the source instead of the main Packagist repository. Just run composer with a “prefer-source” flag:</p><pre name="d6b0" id="d6b0" class="graf graf--pre graf-after--p">composer install --prefer-source</pre><p name="0822" id="0822" class="graf graf--p graf-after--pre graf--trailing">Now composer will use GIT to get the sources instead of downloading zip archives from Packagist. Just be aware that it will make the process considerably slower.</p>
+
+</body>
+</html>
