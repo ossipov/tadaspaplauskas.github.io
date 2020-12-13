@@ -7,7 +7,7 @@ body {
     padding: 0 2rem 2rem 2rem; /* useful for mobile */
 }
 
-h1, h2 {
+h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
 }
 
@@ -19,12 +19,12 @@ small {
     font-size: 75%;
 }
 
-a{
+a {
     color: #0033CC;
     text-decoration: none;
 }
 
-a:visited{
+a:visited {
     color: #0033CC;
     text-decoration: none;
 }
@@ -78,4 +78,3 @@ figure img {
 
 /* atomic classes */
 .m0 { margin: 0; }
-
